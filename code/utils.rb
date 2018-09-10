@@ -4,10 +4,10 @@ class MessageWizard
         image_tweets = Hash.new { |hash, key| hash[key] = [] }
         messages.each do |message|
             media_id = message.media_group_id
-            if media_id == "none"
-                text_tweets << message
-            else 
+            if message.has_photos?
                 image_tweets[media_id] << message
+            else 
+                text_tweets << message
             end
         end
 
@@ -34,24 +34,22 @@ class MessageWizard
 end
 
 class ImageTweet
-    attr_reader :caption, :filenames
+    attr_reader :caption, :filenames, :messages
 
     def initialize(msg_array)
         @msg_array = msg_array 
-        make_caption
-        make_photo_list
-    end
-
-    def make_caption
+        @filenames = @msg_array.map{ |x| x.local_filename }.first(4)
         @caption = @msg_array.map {|msg| msg.caption}.compact.join(' / ')
     end
 
-    def make_photo_list
-        @filenames = @msg_array.map{ |x| x.local_filename }.first(4)
+    def message
+        @msg_array.first
     end
 end
 
 class TextTweet
+    attr_reader :message
+
     def initialize(message)
         @message = message
     end

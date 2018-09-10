@@ -12,8 +12,12 @@ class TwitterClient
         @client.update(text)
     end
 
-    def post_with_many_images(text, files)
-        @client.update_with_media(text, files, options = {})
+	def post_with_many_images(text, files)
+		begin
+			@client.update_with_media(text, files, options = {})
+		rescue
+			puts "failed to post img"
+		end
     end
 
 	def post_em_all(categorized_tweets)
@@ -23,14 +27,23 @@ class TwitterClient
 		puts "#{text.length} text tweets, #{img.length} img tweets to post"
 
 		text.each do |text_tweet|
-			puts "posting text #{text_tweet.text}"
-			@client.update(text_tweet.text)
+			begin
+				result = @client.update(text_tweet.text)
+				TelegramWrapper.respond(text_tweet, result)
+			rescue => error
+				puts "failed to post text"
+			end
 		end
 
 		img.each do |img_tweet|
-			puts "posting text #{img_tweet.caption}"
+			begin
+				puts "posting text #{img_tweet.caption}"
+				result = @client.update_with_media(img_tweet.caption, img_tweet.filenames)
+				TelegramWrapper.respond(img_tweet, result) 
+			rescue => error
+				puts "failed to post img"
+			end
 			# https://www.rubydoc.info/gems/twitter/Twitter%2FREST%2FTweets:update_with_media
-			@client.update_with_media(img_tweet.caption, img_tweet.filenames)
 		end
 	end
 end
