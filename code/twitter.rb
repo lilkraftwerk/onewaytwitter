@@ -29,8 +29,9 @@ class TwitterClient
 		text.each do |text_tweet|
 			begin
 				result = @client.update(text_tweet.text)
-				TelegramWrapper.respond(text_tweet, result)
+				TelegramWrapper.respond(text_tweet)
 			rescue => error
+				TelegramWrapper.respond(text_tweet, false)
 				puts "failed to post text"
 			end
 		end
@@ -39,8 +40,9 @@ class TwitterClient
 			begin
 				puts "posting text #{img_tweet.caption}"
 				result = @client.update_with_media(img_tweet.caption, img_tweet.filenames)
-				TelegramWrapper.respond(img_tweet, result) 
+				TelegramWrapper.respond(img_tweet) 
 			rescue => error
+				TelegramWrapper.respond(text_tweet, false)
 				puts "failed to post img"
 			end
 			# https://www.rubydoc.info/gems/twitter/Twitter%2FREST%2FTweets:update_with_media

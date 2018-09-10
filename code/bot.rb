@@ -25,11 +25,17 @@ class TelegramWrapper
         @response.map {|message| message["update_id"] }.max
     end
 
-    def self.respond(tweet, success)
+    def self.respond(tweet, success = true)
         url = "#{$BASE_URL}/sendMessage"
+        if success == false
+            text = "failed to post :("
+        else
+            text = 'successfully posted! great job!'
+        end
+
         options = { body: {
             chat_id: tweet.message.chat_id,
-            text: 'successfully posted! great job!',
+            text: text,
             reply_to_message_id: tweet.message.reply_id
         }}
         result = HttpWrapper.post(url, options)
