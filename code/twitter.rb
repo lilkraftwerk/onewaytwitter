@@ -1,10 +1,10 @@
 class TwitterClient
 	def initialize
 		@client = Twitter::REST::Client.new do |config|
-			config.consumer_key = TWITTER_KEY
-			config.consumer_secret = TWITTER_SECRET
-			config.access_token = ACCESS_TOKEN
-			config.access_token_secret = ACCESS_SECRET
+			config.consumer_key = $TWITTER_KEY
+			config.consumer_secret = $TWITTER_SECRET
+			config.access_token = $ACCESS_TOKEN
+			config.access_token_secret = $ACCESS_SECRET
 		end
 	end
 	

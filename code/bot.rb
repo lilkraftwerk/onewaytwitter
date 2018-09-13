@@ -79,7 +79,7 @@ class Message
         if File.exist?(@local_filename)
             puts "file #{@local_filename} exists, not downloading..."
         else 
-            url = "https://api.telegram.org/file/bot#{TELEGRAM_TOKEN}/#{web_path}"
+            url = "https://api.telegram.org/file/bot#{$TELEGRAM_TOKEN}/#{web_path}"
             open(@local_filename, 'wb') do |file|
                 file << open(url).read
             end
