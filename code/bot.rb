@@ -28,9 +28,9 @@ class TelegramWrapper
     def self.respond(tweet, success = true)
         url = "#{$BASE_URL}/sendMessage"
         if success == false
-            text = "failed to post :("
+            text = 'did not post :('
         else
-            text = 'successfully posted! great job!'
+            text = 'posted good'
         end
 
         options = { body: {
