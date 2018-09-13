@@ -1,7 +1,7 @@
 require_relative 'config'
 
 task :get do
-    telegram = TelegramWrapper.new(TELEGRAM_TOKEN)
+    telegram = TelegramWrapper.new($TELEGRAM_TOKEN)
     telegram.get_updates
     messages = telegram.response.map {|message_object| Message.new(message_object)}
     sorted = MessageWizard.sort_photos_and_text(messages)
@@ -10,7 +10,7 @@ task :get do
 end
 
 task :post do
-    telegram = TelegramWrapper.new(TELEGRAM_TOKEN)
+    telegram = TelegramWrapper.new($TELEGRAM_TOKEN)
     telegram.get_updates
     messages = telegram.response.map {|message_object| Message.new(message_object)}
     sorted = MessageWizard.sort_photos_and_text(messages)
