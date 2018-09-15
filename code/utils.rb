@@ -5,7 +5,11 @@ class MessageWizard
         messages.each do |message|
             media_id = message.media_group_id
             if message.has_photos?
-                image_tweets[media_id] << message
+                if media_id == 'none'
+                    image_tweets[rand(10000000000).to_s] << message
+                else
+                    image_tweets[media_id] << message  
+                end
             else 
                 text_tweets << message
             end
